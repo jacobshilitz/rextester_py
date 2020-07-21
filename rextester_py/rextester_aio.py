@@ -1,7 +1,7 @@
 import aiohttp
 import logging
 
-from rextester_py.data import languages, compiler_args
+from rextester_py.data import LANGUAGES, COMPILER_ARGS
 
 
 logging.getLogger(__name__)
@@ -13,15 +13,15 @@ async def __fetch(session, url, data):
 
 
 async def rexec_aio(lang, code, stdin=None):
-    if lang.lower() not in languages:
+    if lang.lower() not in LANGUAGES:
         raise UnknownLanguage("Unknown Language")
 
     data = {
-        "LanguageChoice": languages.get(
+        "LanguageChoice": LANGUAGES.get(
             lang.lower()),
         "Program": code,
         "Input": stdin,
-        "CompilerArgs": compiler_args.get(
+        "CompilerArgs": COMPILER_ARGS.get(
             lang.lower())}
 
     async with aiohttp.ClientSession(raise_for_status=True) as session:
