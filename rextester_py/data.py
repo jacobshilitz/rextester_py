@@ -48,6 +48,38 @@ LANGUAGES = {
     'clojure': 47
 }
 
+#sql is in slack but missing here
+SLACK_LANGUAGES = {
+    'c': 6,
+    'cpp': 7,
+    'csharp': 1,
+    'clojure': 47,
+    'd': 30,
+    'erlang': 40,
+    'fsharp': 3,
+    'fortran': 45,
+    'go': 20,
+    'haskell': 11,
+    'java': 4,
+    'javascript': 17,
+    'kotlin': 43,
+    'lisp': 18,
+    'lua': 14,
+    'objc': 10,
+    'ocaml': 42,
+    'pascal': 9,
+    'perl': 13,
+    'php': 8,
+    'python': 24,
+    'r': 31,
+    'ruby': 12,
+    'rust': 46,
+    'scala': 21,
+    'scheme': 22,
+    'swift': 37,
+    'vb': 2
+}
+
 COMPILER_ARGS = {
     "cpp_gcc": "-Wall -std=c++14 -O2 -o a.out source_file.cpp",
     "cpp_clang": "-Wall -std=c++14 -stdlib=libc++ -O2 -o a.out source_file.cpp",

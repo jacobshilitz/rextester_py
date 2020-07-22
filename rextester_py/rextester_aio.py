@@ -13,24 +13,34 @@ async def __fetch(session, url, data):
 
 
 async def rexec_aio(lang, code, stdin=None):
-    if lang.lower() not in LANGUAGES:
-        raise UnknownLanguage("Unknown Language")
 
-    data = {
-        "LanguageChoice": LANGUAGES.get(
-            lang.lower()),
-        "Program": code,
-        "Input": stdin,
-        "CompilerArgs": COMPILER_ARGS.get(
-            lang.lower())}
+    if isinstance(lang, int):
 
-    async with aiohttp.ClientSession(raise_for_status=True) as session:
-        response = await __fetch(session, "https://rextester.com/rundotnet/api", data)
-        return RextesterResult(response.get("Result"),
-                               response.get("Warnings"),
-                               response.get("Errors"),
-                               response.get("Stats"),
-                               response.get("Files"))
+        if lang.lower() not in LANGUAGES.values():
+            raise UnknownLanguage("Unknown Language")
+
+        lang_id = lang
+
+    else:
+        if lang.lower() not in LANGUAGES:
+            raise UnknownLanguage("Unknown Language")
+
+        lang_id = LANGUAGES.get(lang.lower())
+
+        data = {
+            "LanguageChoice": lang_id,
+            "Program": code,
+            "Input": stdin,
+            "CompilerArgs": COMPILER_ARGS.get(
+                lang.lower())}
+
+        async with aiohttp.ClientSession(raise_for_status=True) as session:
+            response = await __fetch(session, "https://rextester.com/rundotnet/api", data)
+            return RextesterResult(response.get("Result"),
+                                response.get("Warnings"),
+                                response.get("Errors"),
+                                response.get("Stats"),
+                                response.get("Files"))
 
 
 class UnknownLanguage(Exception):

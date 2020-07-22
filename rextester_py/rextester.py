@@ -1,5 +1,5 @@
-import requests
 import logging
+import requests
 
 from rextester_py.data import LANGUAGES, COMPILER_ARGS
 
@@ -9,12 +9,21 @@ logging.getLogger(__name__)
 
 
 def rexec(lang, code, stdin=None):
-    if lang.lower() not in LANGUAGES:
-        raise CompilerError("Unknown language")
+    if isinstance(lang, int):
+
+        if lang.lower() not in LANGUAGES.values():
+            raise UnknownLanguage("Unknown Language")
+
+        lang_id = lang
+
+    else:
+        if lang.lower() not in LANGUAGES:
+            raise UnknownLanguage("Unknown Language")
+
+        lang_id = LANGUAGES.get(lang.lower())
 
     data = {
-        "LanguageChoice": LANGUAGES.get(
-            lang.lower()),
+        "LanguageChoice": lang_id,
         "Program": code,
         "Input": stdin,
         "CompilerArgs": COMPILER_ARGS.get(
